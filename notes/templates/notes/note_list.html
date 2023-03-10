@@ -1,0 +1,18 @@
+{% extends './base.html' %}
+
+{% block content %}
+<form id="done-form" method="post">
+    {% csrf_token %}
+</form>
+<ul class="ps-0">{% for note in object_list %}
+    <li class="border rounded mb-2 p-2 d-flex align-items-center">
+        <p class="my-0 mx-3">
+            <a href="{% url 'detail' note.id %}" class="text-decoration-none">
+                {{ note.summary }}
+            </a>
+        </p>
+        <button form="done-form" formaction="{% if note.done %}{% url 'setundone' note.id %}{% else %}{% url 'setdone' note.id %}{% endif %}" class="ms-auto d-block btn btn-primary">{% if note.done %}<i class="fa-regular fa-square-check"></i>{% else %}<i class="fa-regular fa-square"></i>{% endif %}</button>
+    </li>{% endfor %}
+</ul>
+<a href="{% url 'create' %}" class="btn btn-primary">Add</a>
+{% endblock content %}
